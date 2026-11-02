@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://findfunaround.me/schemas/venue.json",
+  "title": "Venue",
+  "description": "A recommendable venue for Find Fun Around Me, including sponsorship and affiliate attributes.",
+  "type": "object",
+  "required": ["id", "name", "vibes", "priceLevel", "groupSizes", "location", "hours", "isSponsored", "affiliate"],
+  "properties": {
+    "id": { "type": "string", "description": "Stable unique id. Use the Google place_id when sourcing from Places API." },
+    "googlePlaceId": { "type": ["string", "null"], "description": "Optional Google Place ID used for precise directions deep-links." },
+    "name": { "type": "string" },
+    "tagline": { "type": "string", "description": "One funny line shown on the card." },
+    "description": { "type": "string" },
+    "vibes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "enum": ["nightlife", "chill", "outdoor", "foodie", "family", "date"] }
+    },
+    "priceLevel": { "type": "integer", "minimum": 1, "maximum": 4, "description": "1 = $, 4 = $$$$" },
+    "groupSizes": {
+      "type": "array",
+      "items": { "enum": ["solo", "couple", "small", "squad"] },
+      "description": "solo = 1, couple = 2, small = 3-5, squad = 6+"
+    },
+    "location": {
+      "type": "object",
+      "required": ["lat", "lng"],
+      "properties": {
+        "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "lng": { "type": "number", "minimum": -180, "maximum": 180 }
+      }
+    },
+    "address": { "type": "string" },
+    "phone": { "type": ["string", "null"] },
+    "image": { "type": "string", "format": "uri" },
+    "rating": { "type": "number", "minimum": 0, "maximum": 5 },
+    "hours": {
+      "type": "object",
+      "required": ["open", "close"],
+      "properties": {
+        "open": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$", "description": "24h local time" },
+        "close": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$", "description": "24h local time. If earlier than open, the venue closes after midnight." },
+        "closedDays": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+          "description": "Days the venue does not open, 0 = Sunday ... 6 = Saturday. For overnight venues this is the day the night starts."
+        }
+      }
+    },
+    "isSponsored": { "type": "boolean", "description": "Paid placement. Eligible for the pinned top slot when filters match." },
+    "sponsorTier": { "enum": ["featured", "standard", null], "description": "'featured' venues win the top slot over 'standard' sponsors." },
+    "sponsorName": { "type": ["string", "null"] },
+    "affiliate": {
+      "type": "object",
+      "required": ["provider", "bookingUrl", "ctaLabel"],
+      "properties": {
+        "provider": { "enum": ["opentable", "resy", "eventbrite", "direct"] },
+        "bookingUrl": { "type": "string", "format": "uri", "description": "Base URL. Tracking params are appended at click time." },
+        "refParam": { "type": "string", "description": "Query param your affiliate network expects, e.g. ref, aff, affid." },
+        "refId": { "type": ["string", "null"], "description": "Your affiliate / partner ID. Falls back to VITE_AFFILIATE_REF." },
+        "ctaLabel": { "type": "string", "description": "e.g. 'Book Table', 'Get Tickets'" }
+      }
+    }
+  }
+}
