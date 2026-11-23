@@ -1,0 +1,8 @@
+{
+  "world": ["https://feeds.bbci.co.uk/news/world/rss.xml", "https://www.theguardian.com/world/rss"],
+  "technology": ["https://feeds.bbci.co.uk/news/technology/rss.xml", "https://techcrunch.com/feed/", "https://hnrss.org/frontpage"],
+  "entertainment": ["https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml", "https://variety.com/feed/"],
+  "nigeria": ["https://punchng.com/feed/", "https://www.premiumtimesng.com/feed"],
+  "science": ["https://feeds.bbci.co.uk/news/science_and_environment/rss.xml"],
+  "sports": ["https://feeds.bbci.co.uk/sport/rss.xml"]
+}
