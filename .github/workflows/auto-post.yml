@@ -8,6 +8,9 @@ permissions:
 jobs:
   post:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: findfunaround
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
